@@ -1,5 +1,5 @@
 #include <LPC21xx.H>
-#include "timer.h"
+#include "timer.h" //git test
 
 #define COUNTER_ENABLE_bm (1<<0)
 #define COUNTER_RESET_bm (1<<1)
