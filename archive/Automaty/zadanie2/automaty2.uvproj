@@ -44,7 +44,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\</OutputDirectory>
-          <OutputName>przerwania</OutputName>
+          <OutputName>automaty2</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -398,6 +398,16 @@
               <FilePath>.\Startup.s</FilePath>
             </File>
             <File>
+              <FileName>keyboard.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\keyboard.h</FilePath>
+            </File>
+            <File>
+              <FileName>led.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\led.h</FilePath>
+            </File>
+            <File>
               <FileName>keyboard.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\keyboard.c</FilePath>
@@ -411,26 +421,6 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
-            </File>
-            <File>
-              <FileName>timer_interrupts.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\timer_interrupts.c</FilePath>
-            </File>
-            <File>
-              <FileName>keyboard.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\keyboard.h</FilePath>
-            </File>
-            <File>
-              <FileName>led.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\led.h</FilePath>
-            </File>
-            <File>
-              <FileName>timer_interrupts.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\timer_interrupts.h</FilePath>
             </File>
           </Files>
         </Group>

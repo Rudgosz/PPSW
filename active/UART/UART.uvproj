@@ -44,10 +44,10 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\</OutputDirectory>
-          <OutputName>przerwania</OutputName>
+          <OutputName>UART</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>1</CreateHexFile>
+          <CreateHexFile>0</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\</ListingPath>
@@ -281,17 +281,17 @@
                 <Size>0x0</Size>
               </XRAM>
               <OCR_RVCT1>
-                <Type>1</Type>
+                <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT1>
               <OCR_RVCT2>
-                <Type>1</Type>
+                <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT2>
               <OCR_RVCT3>
-                <Type>1</Type>
+                <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT3>
@@ -301,7 +301,7 @@
                 <Size>0x40000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
-                <Type>1</Type>
+                <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT5>
@@ -371,7 +371,7 @@
             </VariousControls>
           </Aads>
           <LDads>
-            <umfTarg>1</umfTarg>
+            <umfTarg>0</umfTarg>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
             <noStLib>0</noStLib>
@@ -413,6 +413,11 @@
               <FilePath>.\main.c</FilePath>
             </File>
             <File>
+              <FileName>serwo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\serwo.c</FilePath>
+            </File>
+            <File>
               <FileName>timer_interrupts.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\timer_interrupts.c</FilePath>
@@ -426,6 +431,11 @@
               <FileName>led.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\led.h</FilePath>
+            </File>
+            <File>
+              <FileName>serwo.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\serwo.h</FilePath>
             </File>
             <File>
               <FileName>timer_interrupts.h</FileName>
