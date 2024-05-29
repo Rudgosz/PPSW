@@ -8,6 +8,7 @@
 int main (){
   
   extern char cOdebranyZnak;
+  unsigned int uiServoPosition = 12;
   KeyboardInit();  
   LedInit();
   ServoInit(50);
@@ -19,9 +20,10 @@ while(1){
     switch(cOdebranyZnak){
       
       case '1':
-        ServoGoTo(12);
+        ServoGoTo(uiServoPosition);
+        uiServoPosition += 12;
         break;
-      
+      /*
       case '2':
         ServoGoTo(24);
         break;
@@ -32,7 +34,7 @@ while(1){
       
       case '4':
         break;
-      
+      */
       case 'c':
         ServoCallib();
         break;
@@ -41,7 +43,8 @@ while(1){
         break;
     }
     
-   
+    cOdebranyZnak = 0;
+    /*
     switch(eKeyboardRead()){
       
       case BUTTON_0:
@@ -66,6 +69,7 @@ while(1){
       default:
         break;
     }
+    */
   }
 }
 
