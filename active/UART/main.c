@@ -10,30 +10,57 @@ int main (){
   extern char cOdebranyZnak;
   KeyboardInit();  
   LedInit();
+  ServoInit(50);
   UART_InitWithInt(9600);
   
 while(1){
+  
 
     switch(cOdebranyZnak){
       
       case '1':
-        LedOn(0);
+        ServoGoTo(12);
         break;
       
       case '2':
-        LedOn(1);
+        ServoGoTo(24);
         break;
       
       case '3':
-        LedOn(2);
+        ServoGoTo(36);
         break;
       
       case '4':
-        LedOn(3);
         break;
       
       case 'c':
-        LedOn(4);
+        ServoCallib();
+        break;
+      
+      default:
+        break;
+    }
+    
+   
+    switch(eKeyboardRead()){
+      
+      case BUTTON_0:
+        ServoCallib();
+        break;      
+      
+      case BUTTON_1:
+        ServoGoTo(12);
+        break;
+      
+      case BUTTON_2:
+        ServoGoTo(24);
+        break;
+     
+      case BUTTON_3:
+        ServoGoTo(36);
+        break;
+      
+      case RELASED:
         break;
       
       default:
@@ -41,3 +68,7 @@ while(1){
     }
   }
 }
+
+
+
+

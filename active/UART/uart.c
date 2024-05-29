@@ -56,7 +56,7 @@ void UART_InitWithInt(unsigned int uiBaudRate){
    U0IER  |= mRX_DATA_AVALIABLE_INTERRUPT_ENABLE;               // ??? co tu robinmy -- enable THRE interrupt
 
    // INT
-   VICVectAddr1  = (unsigned long) UART0_Interrupt;             // set interrupt service routine address
-   VICVectCntl1  = mIRQ_SLOT_ENABLE | VIC_UART0_CHANNEL_NR;     // use it for UART 0 Interrupt
+   VICVectAddr2  = (unsigned long) UART0_Interrupt;             // set interrupt service routine address
+   VICVectCntl2  = mIRQ_SLOT_ENABLE | VIC_UART0_CHANNEL_NR;     // use it for UART 0 Interrupt
    VICIntEnable |= (0x1 << VIC_UART0_CHANNEL_NR);               // Enable UART 0 Interrupt Channel
 }

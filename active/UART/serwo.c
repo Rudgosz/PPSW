@@ -46,7 +46,7 @@ void Automat(void){
         else{
           sServo.uiCurrentPosition = 0;
           sServo.uiDesiredPosition = 0;
-          sServo.eState = OFFSET;
+          sServo.eState = IDLE;
         }
         break;
         
