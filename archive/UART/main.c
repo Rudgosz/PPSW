@@ -45,6 +45,7 @@ while(1){
     
     cOdebranyZnak = 0;
     
+
     switch(eKeyboardRead()){
       
       case BUTTON_0:
