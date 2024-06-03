@@ -23,7 +23,7 @@ while(1){
         ServoGoTo(uiServoPosition);
         uiServoPosition += 12;
         break;
-      /*
+      
       case '2':
         ServoGoTo(24);
         break;
@@ -34,7 +34,7 @@ while(1){
       
       case '4':
         break;
-      */
+      
       case 'c':
         ServoCallib();
         break;
@@ -44,7 +44,7 @@ while(1){
     }
     
     cOdebranyZnak = 0;
-    /*
+    
     switch(eKeyboardRead()){
       
       case BUTTON_0:
@@ -69,7 +69,7 @@ while(1){
       default:
         break;
     }
-    */
+    
   }
 }
 
