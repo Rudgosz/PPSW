@@ -18,7 +18,8 @@ typedef struct Keyword {
 
 struct Keyword asKeywordList[MAX_KEYWORD_NR] = {
 	{CALLIB, "callib"},
-	{GOTO, "goto"}
+	{GOTO, "goto"},
+    {CALC, "calc"}
 };
 
 

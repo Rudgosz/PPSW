@@ -1,5 +1,5 @@
-#define RECEIVER_SIZE 15
-#define TRANSMITER_SIZE 20
+#define RECEIVER_SIZE 30
+#define TRANSMITER_SIZE 30
 
 enum eReceiverStatus {EMPTY, READY, OVERFLOW};
 enum eTransmiterStatus {FREE, BUSY};

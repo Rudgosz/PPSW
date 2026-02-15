@@ -2,6 +2,10 @@
 #include "konwersje.h"
 #include "string.h"
 #include "timer_interrupts.h"
+#include "command_decoder.h"
+
+extern unsigned char ucTokenNr;
+extern struct Token asToken[MAX_TOKEN_NR];
 
 struct Watch{
     unsigned char ucMinutes;
@@ -29,24 +33,47 @@ void WatchUpdate(void) {
 
 int main() {
     
-    char cText[TRANSMITER_SIZE];
+    char cTextSend[TRANSMITER_SIZE];
+    char cTextReceive[RECEIVER_SIZE];
+    
+    unsigned char fCalcRequested = 0;
+    unsigned int uiCalcResult = 0;
+    
     UART_InitWithInt(9600);
     Timer0Interrupts_Init(1000000, WatchUpdate); 
-
+    
     while(1) {
-        if (Transmiter_GetStatus() == FREE) {
+        
+        if(eReceiver_GetStatus() == READY){
+            Receiver_GetStringCopy(cTextReceive);
+            DecodeMsg(cTextReceive);
+
+            if((ucTokenNr == 2) && (asToken[0].eType == KEYWORD) && (asToken[1].eType == NUMBER)) {
+                if(asToken[0].uValue.eKeyword == CALC){
+                    uiCalcResult = asToken[1].uValue.uiNumber * 2;
+                    fCalcRequested = 1; 
+                }
+            }
+        }
+        
+        if(Transmiter_GetStatus() == FREE){
             
-            if (sWatch.fMinutesValueChanged) {
-                CopyString("min 0x", cText);
-                UIntToHexStr(sWatch.ucMinutes, cText + 6);
-                Transmiter_SendString(cText);
+            if(fCalcRequested){
+                CopyString("calc ", cTextSend);
+                UIntToHexStr(uiCalcResult, cTextSend + 5);
+                Transmiter_SendString(cTextSend);
+                fCalcRequested = 0;
+            }
+            else if(sWatch.fMinutesValueChanged){
+                CopyString("min ", cTextSend);
+                UIntToHexStr(sWatch.ucMinutes, cTextSend + 4);
+                Transmiter_SendString(cTextSend);
                 sWatch.fMinutesValueChanged = 0; 
             }
-
-            else if (sWatch.fSecondsValueChanged) {
-                CopyString("sec 0x", cText);
-                UIntToHexStr(sWatch.ucSeconds, cText + 6);
-                Transmiter_SendString(cText);
+            else if(sWatch.fSecondsValueChanged){
+                CopyString("sec ", cTextSend);
+                UIntToHexStr(sWatch.ucSeconds, cTextSend + 4);
+                Transmiter_SendString(cTextSend);
                 sWatch.fSecondsValueChanged = 0;
             }
         }

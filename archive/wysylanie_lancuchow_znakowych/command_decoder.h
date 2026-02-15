@@ -2,7 +2,7 @@
 #define MAX_KEYWORD_STRING_LTH 10
 #define MAX_KEYWORD_NR 3
 
-typedef enum KeywordCode {CALLIB, GOTO} KeywordCode;
+typedef enum KeywordCode {CALLIB, GOTO, CALC} KeywordCode;
 typedef enum TokenType {KEYWORD, NUMBER, STRING} TokenType;
 
 typedef union TokenValue {
