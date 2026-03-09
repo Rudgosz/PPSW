@@ -3,9 +3,13 @@
 #include "string.h"
 #include "timer_interrupts.h"
 #include "command_decoder.h"
+#include "serwo.h"
+#include "keyboard.h"
+
 
 extern unsigned char ucTokenNr;
 extern struct Token asToken[MAX_TOKEN_NR];
+extern char cOdebranyZnak;
 
 struct Watch{
     unsigned char ucMinutes;
@@ -36,33 +40,70 @@ int main() {
     char cTextSend[TRANSMITER_SIZE];
     char cTextReceive[RECEIVER_SIZE];
     
-    unsigned char fCalcRequested = 0;
+    
+    unsigned char fCalcReq = 0;
     unsigned int uiCalcResult = 0;
     
+    ServoInit(20);
     UART_InitWithInt(9600);
-    Timer0Interrupts_Init(1000000, WatchUpdate); 
+    Timer1Interrupts_Init(1000000, WatchUpdate); 
     
     while(1) {
+        
+        switch (eKeyboardRead()) {
+
+         case BUTTON_0:
+            ServoCallib();
+            break;
+
+         case BUTTON_1:
+            ServoGoTo(12);
+            break;
+
+         case BUTTON_2:
+            ServoGoTo(24);
+            break;
+
+         case BUTTON_3:
+            ServoGoTo(36);
+            break;
+
+         default:
+            break;
+         }
+        
         
         if(eReceiver_GetStatus() == READY){
             Receiver_GetStringCopy(cTextReceive);
             DecodeMsg(cTextReceive);
 
-            if((ucTokenNr == 2) && (asToken[0].eType == KEYWORD) && (asToken[1].eType == NUMBER)) {
-                if(asToken[0].uValue.eKeyword == CALC){
-                    uiCalcResult = asToken[1].uValue.uiNumber * 2;
-                    fCalcRequested = 1; 
+            if((ucTokenNr > 0) && (asToken[0].eType == KEYWORD)){
+                switch(asToken[0].uValue.eKeyword) {
+                    case CALLIB:
+                        ServoCallib();
+                        break;
+                    case GOTO:
+                        if((ucTokenNr >= 2) && (asToken[1].eType == NUMBER)) {
+                            ServoGoTo(asToken[1].uValue.uiNumber);
+                        }
+                        break;
+                    case CALC:
+                        if((ucTokenNr >= 2) && (asToken[1].eType == NUMBER)) {
+                            uiCalcResult = asToken[1].uValue.uiNumber * 2;
+                            fCalcReq = 1; 
+                        }
+                        break;
                 }
             }
         }
         
         if(Transmiter_GetStatus() == FREE){
             
-            if(fCalcRequested){
+            if(fCalcReq){
                 CopyString("calc ", cTextSend);
                 UIntToHexStr(uiCalcResult, cTextSend + 5);
                 Transmiter_SendString(cTextSend);
-                fCalcRequested = 0;
+                fCalcReq = 0;
             }
             else if(sWatch.fMinutesValueChanged){
                 CopyString("min ", cTextSend);
