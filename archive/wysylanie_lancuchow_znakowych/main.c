@@ -6,6 +6,11 @@
 #include "serwo.h"
 #include "keyboard.h"
 
+#define RED     "\x1B[31m"
+#define GREEN   "\x1B[32m"
+#define YELLOW  "\x1B[33m"
+#define WHITE   "\x1B[0m"
+
 
 extern unsigned char ucTokenNr;
 extern struct Token asToken[MAX_TOKEN_NR];
@@ -93,6 +98,7 @@ int main() {
                             fCalcReq = 1; 
                         }
                         break;
+
                 }
             }
         }
@@ -100,20 +106,23 @@ int main() {
         if(Transmiter_GetStatus() == FREE){
             
             if(fCalcReq){
-                CopyString("calc ", cTextSend);
-                UIntToHexStr(uiCalcResult, cTextSend + 5);
+                CopyString(WHITE, cTextSend);
+                AppendString("calc ", cTextSend);
+                UIntToHexStr(uiCalcResult, cTextSend + 9);
                 Transmiter_SendString(cTextSend);
                 fCalcReq = 0;
             }
             else if(sWatch.fMinutesValueChanged){
-                CopyString("min ", cTextSend);
-                UIntToHexStr(sWatch.ucMinutes, cTextSend + 4);
+                CopyString(GREEN, cTextSend);
+                AppendString("min ", cTextSend);
+                UIntToHexStr(sWatch.ucMinutes, cTextSend + 9);
                 Transmiter_SendString(cTextSend);
                 sWatch.fMinutesValueChanged = 0; 
             }
             else if(sWatch.fSecondsValueChanged){
-                CopyString("sec ", cTextSend);
-                UIntToHexStr(sWatch.ucSeconds, cTextSend + 4);
+                CopyString(YELLOW, cTextSend);
+                AppendString("sec ", cTextSend);
+                UIntToHexStr(sWatch.ucSeconds, cTextSend + 9);
                 Transmiter_SendString(cTextSend);
                 sWatch.fSecondsValueChanged = 0;
             }

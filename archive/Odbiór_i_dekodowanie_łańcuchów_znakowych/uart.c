@@ -42,13 +42,14 @@ struct ReceiverBuffer {
 struct ReceiverBuffer sReceiverBuffer;
 
 void Receiver_PutCharacterToBuffer(char cCharacter){
-    if(cCharacter == TERMINATOR){
+    if(sReceiverBuffer.ucCharCtr == RECEIVER_SIZE){
+        sReceiverBuffer.eStatus = OVERFLOW;
+    }
+    else if(cCharacter == TERMINATOR){
         sReceiverBuffer.cData[sReceiverBuffer.ucCharCtr] = '\0';
         sReceiverBuffer.eStatus = READY;
         sReceiverBuffer.ucCharCtr = 0;
-    }else if(sReceiverBuffer.ucCharCtr > RECEIVER_SIZE){
-        sReceiverBuffer.eStatus = OVERFLOW;
-    }
+    } 
     else{
         sReceiverBuffer.cData[sReceiverBuffer.ucCharCtr] = cCharacter;
         sReceiverBuffer.ucCharCtr++;

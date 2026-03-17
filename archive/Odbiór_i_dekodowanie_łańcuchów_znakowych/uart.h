@@ -1,4 +1,4 @@
-#define RECEIVER_SIZE 10
+#define RECEIVER_SIZE 20
 
 enum eReceiverStatus {EMPTY, READY, OVERFLOW};
 

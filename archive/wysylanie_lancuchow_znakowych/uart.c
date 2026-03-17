@@ -29,7 +29,7 @@
 
 ////////////// Zmienne globalne ////////////
 char cOdebranyZnak;
-
+char cCurrentChar;
 
 struct ReceiverBuffer {
 	char cData[RECEIVER_SIZE];
@@ -53,13 +53,14 @@ struct TransmiterBuffer sTransmiterBuffer;
 ///////////// Receiver ////////////////
 
 void Receiver_PutCharacterToBuffer(char cCharacter){
-    if(cCharacter == TERMINATOR){
+    if(sReceiverBuffer.ucCharCtr == RECEIVER_SIZE){
+        sReceiverBuffer.eStatus = OVERFLOW;
+    }
+    else if(cCharacter == TERMINATOR){
         sReceiverBuffer.cData[sReceiverBuffer.ucCharCtr] = '\0';
         sReceiverBuffer.eStatus = READY;
         sReceiverBuffer.ucCharCtr = 0;
-    }else if(sReceiverBuffer.ucCharCtr > RECEIVER_SIZE){
-        sReceiverBuffer.eStatus = OVERFLOW;
-    }
+    } 
     else{
         sReceiverBuffer.cData[sReceiverBuffer.ucCharCtr] = cCharacter;
         sReceiverBuffer.ucCharCtr++;
@@ -83,24 +84,21 @@ void Receiver_GetStringCopy(char *ucDestination) {
 //////////////// Transmiter //////////////////
 
 char Transmiter_GetCharacterFromBuffer(void){
-    char cCurrentChar;
+    cCurrentChar = sTransmiterBuffer.cData[sTransmiterBuffer.cCharCtr];
 
     if(sTransmiterBuffer.fLastCharacter){
         sTransmiterBuffer.eStatus = FREE;
         sTransmiterBuffer.fLastCharacter = 0;
         return NULL;
-    }
-
-    cCurrentChar = sTransmiterBuffer.cData[sTransmiterBuffer.cCharCtr];
-
-    if(cCurrentChar == NULL){
+    }else if(cCurrentChar == NULL){
         sTransmiterBuffer.fLastCharacter = 1;
         return TERMINATOR;
+    }else{
+        sTransmiterBuffer.cCharCtr++;
+        return cCurrentChar;
     }
-    
-    sTransmiterBuffer.cCharCtr++;
-    return cCurrentChar;
 }
+
 
 
 void Transmiter_SendString(char cString[]){
@@ -134,13 +132,11 @@ __irq void UART0_Interrupt (void) {
    if ((uiCopyOfU0IIR & mINTERRUPT_PENDING_IDETIFICATION_BITFIELD) == mTHRE_INTERRUPT_PENDING)              // wyslano znak
    {
       char cCharToSend;
-        
-        if(sTransmiterBuffer.eStatus == BUSY){
-             cCharToSend = Transmiter_GetCharacterFromBuffer();
-             if(cCharToSend != NULL){
-                 U0THR = cCharToSend;
-             }
-        }
+
+      cCharToSend = Transmiter_GetCharacterFromBuffer();
+      if(cCharToSend != NULL){
+          U0THR = cCharToSend;
+      }
    }
 
    VICVectAddr = 0; // Acknowledge Interrupt
